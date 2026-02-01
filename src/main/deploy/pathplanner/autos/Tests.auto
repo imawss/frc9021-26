@@ -7,7 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "turner"
+            "pathName": "To The Hub"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "To The Source"
           }
         }
       ]
