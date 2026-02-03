@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
         .withTimestampReplay()
         .withJoystickReplay();
 
-    private final boolean kUseLimelight = false;
+    private final boolean kUseLimelight = true;
 
     public Robot() {
         m_robotContainer = new RobotContainer();
