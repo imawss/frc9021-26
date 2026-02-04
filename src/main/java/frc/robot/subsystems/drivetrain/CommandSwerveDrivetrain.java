@@ -50,7 +50,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
     private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
+<<<<<<< HEAD
     private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
+=======
+    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.kZero; 
+>>>>>>> dee51a9 (ll mt1)
     /* Keep track if we've ever applied the operator perspective before or not */
     private boolean m_hasAppliedOperatorPerspective = false;
 
