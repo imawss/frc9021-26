@@ -13,7 +13,11 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.FollowPathCommand;
 
+<<<<<<< HEAD
 import edu.wpi.first.math.controller.PIDController;
+=======
+import edu.wpi.first.math.geometry.Pose2d;
+>>>>>>> main
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -107,6 +111,20 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
 
         joystick.back().and(joystick.rightBumper()).whileTrue(new AutoAim(drivetrain, limelight));
+    }
+
+    public void setInitialPoseForAlliance() {
+        var alliance = edu.wpi.first.wpilibj.DriverStation.getAlliance()
+                .orElse(edu.wpi.first.wpilibj.DriverStation.Alliance.Blue);
+        Pose2d startPose;
+        if (alliance == edu.wpi.first.wpilibj.DriverStation.Alliance.Blue) {
+            startPose = new Pose2d(1, 1, Rotation2d.kZero);
+            System.out.println("Blue Alliance - Pose" + startPose);
+        } else {
+            startPose = new Pose2d(14, 1, Rotation2d.fromDegrees(180));
+            System.out.println("Red Alliance - Pose:" + startPose);
+        }
+        drivetrain.resetPose(startPose);
     }
 
     public Command getAutonomousCommand() {
