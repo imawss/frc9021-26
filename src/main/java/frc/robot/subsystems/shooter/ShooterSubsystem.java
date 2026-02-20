@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
         availableProfiles = ShooterConstants.createAllProfiles();
         profileChooser = new SendableChooser<>();
         
-        // Populate dashboard chooser
+        //Dashboard chooser
         boolean defaultSet = false;
         for (Map.Entry<String, ShooterProfile> entry : availableProfiles.entrySet()) {
             String profileName = entry.getKey();

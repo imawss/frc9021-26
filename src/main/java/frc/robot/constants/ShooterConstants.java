@@ -24,7 +24,7 @@ public final class ShooterConstants {
     public static final String CANBUS = "rio";
     
     // Mechanism properties
-    public static final double GEAR_RATIO = 0; 
+    public static final double GEAR_RATIO = 1; 
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4.0);
 
     public static final double kP = 0.1;
