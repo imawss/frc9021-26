@@ -47,10 +47,10 @@ public class RobotContainer {
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    public final IntakeSubsystem intake     = new IntakeSubsystem();
-    public final ShooterSubsystem shooter   = new ShooterSubsystem();
-    public final HopperSubsystem hopper     = new HopperSubsystem();
-    public final FeederSubsystem feeder     = new FeederSubsystem();
+    public final IntakeSubsystem intake = new IntakeSubsystem();
+    public final ShooterSubsystem shooter = new ShooterSubsystem();
+    public final HopperSubsystem hopper = new HopperSubsystem();
+    public final FeederSubsystem feeder = new FeederSubsystem();
 
     public final FuelSim fuelSim;
 
@@ -71,33 +71,19 @@ public class RobotContainer {
         FuelSim sim = new FuelSim("FuelSim");
 
         sim.registerRobot(
-            0.87,   // robot width  (left side to right side)
-            0.87,   // robot length (front bumper to back bumper)
-            0.20,   // bumper height (floor to top of bumpers)
-            () -> drivetrain.getState().Pose,    
-            () -> drivetrain.getState().Speeds   
-        );
+                0.87, // robot width (left side to right side)
+                0.87, // robot length (front bumper to back bumper)
+                0.20, // bumper height (floor to top of bumpers)
+                () -> drivetrain.getState().Pose,
+                () -> drivetrain.getState().Speeds);
 
-        sim.registerIntake(
-            -0.43,              
-             0.43,             
-            -0.50,            
-            -0.43,              
-            intake::isExtended,
-            null                
-        );
-
-        // (Optional) Enable air resistance so long shots arc more realistically
-        // sim.enableAirResistance();
-
-         sim.setSubticks(20); // default is 5
+        sim.setSubticks(20); // default is 5
 
         SmartDashboard.putData("FuelSim/Reset Fuel",
-            Commands.runOnce(() -> {
-                sim.clearFuel();
-                sim.spawnStartingFuel();
-            }).ignoringDisable(true).withName("Reset Fuel")
-        );
+                Commands.runOnce(() -> {
+                    sim.clearFuel();
+                    sim.spawnStartingFuel();
+                }).ignoringDisable(true).withName("Reset Fuel"));
 
         sim.start();
         System.out.println("[FuelSim] Initialized. Balls spawned on field.");
@@ -107,22 +93,17 @@ public class RobotContainer {
     private void configureBindings() {
 
         drivetrain.setDefaultCommand(
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed)
-                     .withVelocityY(-joystick.getLeftX() * MaxSpeed)
-                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate)
-            )
-        );
+                drivetrain.applyRequest(() -> drive.withVelocityX(-joystick.getLeftY() * MaxSpeed)
+                        .withVelocityY(-joystick.getLeftX() * MaxSpeed)
+                        .withRotationalRate(-joystick.getRightX() * MaxAngularRate)));
 
         final var idle = new SwerveRequest.Idle();
         RobotModeTriggers.disabled().whileTrue(
-            drivetrain.applyRequest(() -> idle).ignoringDisable(true)
-        );
+                drivetrain.applyRequest(() -> idle).ignoringDisable(true));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        joystick.b().whileTrue(drivetrain.applyRequest(
+                () -> point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))));
 
         joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
@@ -132,24 +113,22 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         SmartDashboard.putData("Test Shoot 2m",
-            new CompleteShootSequence(shooter, hopper, feeder, 2.0, fuelSim));
+                new CompleteShootSequence(shooter, hopper, feeder, 2.0, fuelSim));
         SmartDashboard.putData("Test Shoot 3m",
-            new CompleteShootSequence(shooter, hopper, feeder, 3.0, fuelSim));
+                new CompleteShootSequence(shooter, hopper, feeder, 3.0, fuelSim));
         SmartDashboard.putData("Test Shoot 4m",
-            new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim));
+                new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim));
 
         SmartDashboard.putData("Shooter Spin 3500 RPM",
-            Commands.runOnce(() -> shooter.setVelocityRPM(3500), shooter));
+                Commands.runOnce(() -> shooter.setVelocityRPM(3500), shooter));
         SmartDashboard.putData("Shooter Stop",
-            Commands.runOnce(shooter::stop, shooter));
+                Commands.runOnce(shooter::stop, shooter));
 
         SmartDashboard.putData("Burst Shoot 3x",
-    Commands.sequence(
-        new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim),
-        new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim),
-        new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim)
-    )
-);
+                Commands.sequence(
+                        new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim),
+                        new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim),
+                        new CompleteShootSequence(shooter, hopper, feeder, 4.0, fuelSim)));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }

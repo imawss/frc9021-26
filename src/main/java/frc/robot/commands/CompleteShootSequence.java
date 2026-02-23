@@ -14,67 +14,65 @@ public class CompleteShootSequence extends SequentialCommandGroup {
 
     /**
      * @param shooter        ShooterSubsystem — controls the flywheel
-     * @param hopper         HopperSubsystem  — stages the game piece
-     * @param feeder         FeederSubsystem  — pushes game piece into shooter
+     * @param hopper         HopperSubsystem — stages the game piece
+     * @param feeder         FeederSubsystem — pushes game piece into shooter
      * @param distanceMeters Horizontal distance to the target in meters
      * @param fuelSim        FuelSim instance (pass null if not in simulation)
      */
     public CompleteShootSequence(
-        ShooterSubsystem shooter,
-        HopperSubsystem hopper,
-        FeederSubsystem feeder,
-        double distanceMeters,
-        FuelSim fuelSim
-    ) {
+            ShooterSubsystem shooter,
+            HopperSubsystem hopper,
+            FeederSubsystem feeder,
+            double distanceMeters,
+            FuelSim fuelSim) {
         addCommands(
- 
-            Commands.print("[Shoot] Spinning up for " + distanceMeters + "m"),
-            Commands.runOnce(() -> shooter.setVelocityForDistance(distanceMeters), shooter),
 
-            Commands.waitUntil(shooter::atTargetVelocity).withTimeout(2.0),
-            Commands.print("[Shoot] At speed — feeding"),
+                Commands.print("[Shoot] Spinning up for " + distanceMeters + "m"),
+                Commands.runOnce(() -> shooter.setVelocityForDistance(distanceMeters), shooter),
 
-            Commands.parallel(
-                Commands.run(hopper::feed, hopper),
-                Commands.run(feeder::feed, feeder)
-            ).withTimeout(0.75),
+                Commands.waitUntil(shooter::atTargetVelocity).withTimeout(2.0),
+                Commands.print("[Shoot] At speed — feeding"),
 
-            Commands.runOnce(() -> {
-                if (RobotBase.isSimulation() && fuelSim != null) {
-                    double wheelRPM       = shooter.getWheelRPM();
-                    double launchSpeedMPS = (wheelRPM / 60.0) * 2.0 * Math.PI
-                                           * ShooterConstants.WHEEL_RADIUS_METERS;
+                Commands.parallel(
+                        Commands.run(hopper::feed, hopper),
+                        Commands.run(feeder::feed, feeder)).withTimeout(0.75),
 
-                    double hoodAngleDeg = shooter.getActiveProfileAngle();
+                Commands.runOnce(() -> {
+                    if (RobotBase.isSimulation() && fuelSim != null) {
+                        double wheelRPM = shooter.getWheelRPM();
+                        double launchSpeedMPS = Math.min(
+                                (wheelRPM / 60.0) * 2.0 * Math.PI * ShooterConstants.WHEEL_RADIUS_METERS,
+                                15.0 // max realistic FRC launch speed
+                        );
 
-                    fuelSim.launchFuel(
-                        Units.MetersPerSecond.of(launchSpeedMPS), // linear launch speed
-                        Units.Degrees.of(hoodAngleDeg),           // hood elevation angle
-                        Units.Degrees.of(0.0),                    // turret yaw (0 = straight ahead)
-                        Units.Meters.of(0.5)                      // launch height above the floor
-                    );
+                        double hoodAngleDeg = shooter.getActiveProfileAngle();
 
-                    System.out.printf("[FuelSim] Launched: %.1f m/s at %.1f°%n",
-                        launchSpeedMPS, hoodAngleDeg);
-                }
-            }),
+                        fuelSim.launchFuel(
+                                Units.MetersPerSecond.of(launchSpeedMPS), // linear launch speed
+                                Units.Degrees.of(hoodAngleDeg), // hood elevation angle
+                                Units.Degrees.of(0.0), // turret yaw (0 = straight ahead)
+                                Units.Meters.of(0.5) // launch height above the floor
+                        );
 
-            Commands.runOnce(() -> {
-                shooter.stop();
-                hopper.stop();
-                feeder.stop();
-            }, shooter, hopper, feeder),
+                        System.out.printf("[FuelSim] Launched: %.1f m/s at %.1f°%n",
+                                launchSpeedMPS, hoodAngleDeg);
+                    }
+                }),
 
-            Commands.print("[Shoot] Complete")
-        );
+                Commands.runOnce(() -> {
+                    shooter.stop();
+                    hopper.stop();
+                    feeder.stop();
+                }, shooter, hopper, feeder),
+
+                Commands.print("[Shoot] Complete"));
     }
 
     public CompleteShootSequence(
-        ShooterSubsystem shooter,
-        HopperSubsystem hopper,
-        FeederSubsystem feeder,
-        double distanceMeters
-    ) {
+            ShooterSubsystem shooter,
+            HopperSubsystem hopper,
+            FeederSubsystem feeder,
+            double distanceMeters) {
         this(shooter, hopper, feeder, distanceMeters, null);
     }
 }
