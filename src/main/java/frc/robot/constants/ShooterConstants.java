@@ -10,7 +10,7 @@ import java.util.Map;
 public final class ShooterConstants {
     private ShooterConstants() {}
 
-    public static final int MOTOR_ID = 0;
+    public static final int MOTOR_ID = 25;
 
     public static final double GEAR_RATIO = 1.0;
 

@@ -23,13 +23,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class FeederSubsystem extends SubsystemBase {
     private final SparkMax feederMotor;
     
-    private final DigitalInput beamBreak;
-    private final boolean hasBeamBreak;
+    private static final int FEEDER_MOTOR_ID = 36;   
     
-    private static final int FEEDER_MOTOR_ID = 6;  
-    private static final int BEAM_BREAK_DIO = 1;   
-    
-    private static final double FEED_SPEED = 0.8;    
+    private static final double FEED_SPEED = 1;    
     private static final double SLOW_FEED_SPEED = 0.4; 
     private static final double REVERSE_SPEED = -0.5;  
     
@@ -39,31 +35,19 @@ public class FeederSubsystem extends SubsystemBase {
         feederMotor = new SparkMax(FEEDER_MOTOR_ID, MotorType.kBrushless);
         
         SparkMaxConfig config = new SparkMaxConfig();
-        config.idleMode(IdleMode.kBrake);
+        config.idleMode(IdleMode.kCoast);
         config.smartCurrentLimit(30);
-        config.inverted(false); 
+        config.inverted(true); 
         
         feederMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        
-        hasBeamBreak = (BEAM_BREAK_DIO >= 0);
-        if (hasBeamBreak) {
-            beamBreak = new DigitalInput(BEAM_BREAK_DIO);
-        } else {
-            beamBreak = null;
-        }
-        
-        System.out.println("[Feeder] Initialized" + 
-            (hasBeamBreak ? " with beam break sensor" : " (no sensor)"));
+
     }
     
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Feeder/Speed", currentSpeed);
         SmartDashboard.putNumber("Feeder/Current (A)", feederMotor.getOutputCurrent());
-        
-        if (hasBeamBreak) {
-            SmartDashboard.putBoolean("Feeder/Has Game Piece", hasGamePiece());
-        }
+
     }
     
     public void feed() {
@@ -89,18 +73,6 @@ public class FeederSubsystem extends SubsystemBase {
     public void setSpeed(double speed) {
         currentSpeed = speed;
         feederMotor.set(speed);
-    }
-
-    /**
-     * Check if feeder has a game piece ready.
-     * @return true if beam break is triggered (or always false if no sensor)
-     */
-    public boolean hasGamePiece() {
-        if (!hasBeamBreak) {
-            return false;
-        }
-        // Beam break is typically LOW when blocked
-        return !beamBreak.get();
     }
 
     public boolean isRunning() {

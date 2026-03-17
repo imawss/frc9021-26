@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeRollerSubsystem extends SubsystemBase {
     private final SparkMax rollerMotor;
     
-    private static final int ROLLER_MOTOR_ID = 4;  
+    private static final int ROLLER_MOTOR_ID = 37;  
 
-    private static final double INTAKE_SPEED = 0.8;  
+    private static final double INTAKE_SPEED = 0.95;  
     private static final double EJECT_SPEED = -0.6;   
     
     private double currentSpeed = 0.0;
@@ -26,7 +26,7 @@ public class IntakeRollerSubsystem extends SubsystemBase {
         SparkMaxConfig config = new SparkMaxConfig();
         config.idleMode(IdleMode.kCoast); 
         config.smartCurrentLimit(30);
-        config.inverted(false);  
+        config.inverted(true);  
         
         rollerMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
