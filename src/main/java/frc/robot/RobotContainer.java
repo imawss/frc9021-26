@@ -109,15 +109,12 @@ public class RobotContainer {
                 joystick.rightBumper().whileTrue(
                                 Commands.startEnd(hopper::eject, hopper::stop, hopper));
 
-                joystick.povUp().whileTrue(
-                                Commands.run(() -> arm.manualDrive(-1), arm));
-
-                // POV Down → extend (direction = +1)
                 joystick.povDown().whileTrue(
                                 Commands.run(() -> arm.manualDrive(+1), arm));
 
-                // ── DEFAULT COMMAND ──
-                // When no POV is pressed, hold position with gravity compensation.
+                joystick.povUp().whileTrue(
+                                Commands.run(() -> arm.manualDrive(-1), arm));
+
                 arm.setDefaultCommand(
                                 Commands.run(() -> arm.manualDrive(0), arm)
                                                 .withName("Arm Hold"));

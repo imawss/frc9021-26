@@ -134,7 +134,6 @@ public class ShootCommand extends Command {
                     SmartDashboard.putBoolean("ShootCommand/Using Limelight", true);
                     SmartDashboard.putNumber("ShootCommand/LL Tag ID", best.id);
                     SmartDashboard.putNumber("ShootCommand/LL Dist To Robot (m)", best.distToRobot);
-                    SmartDashboard.putNumber("GetDistanceToHub", getDistanceToHub());
                     return best.distToRobot;
                 }
             }
