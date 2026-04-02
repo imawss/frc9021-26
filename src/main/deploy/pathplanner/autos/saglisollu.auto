@@ -9,6 +9,12 @@
           "data": {
             "pathName": "saglisollu"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
         }
       ]
     }

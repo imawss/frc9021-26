@@ -31,11 +31,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     private static final double MANUAL_SPEED      = 0.25;  
     private static final double MANUAL_SPEED_SLOW = 0.05;  
-
-    private static final double ARM_MASS_EMPTY_KG = 2.0;
-    private static final double ARM_MASS_LOADED_KG = 3.0;
-
-    private static final double kG = 0.03;  
+    
+    private static final double kG = 0.04;  
 
     private static final int CURRENT_LIMIT_AMPS = 40;
 

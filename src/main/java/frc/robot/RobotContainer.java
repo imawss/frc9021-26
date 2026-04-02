@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.robot.commands.AllianceZoneShootCommand;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.ContinuousAimCommand;
 import frc.robot.commands.ShootCommand;
@@ -99,6 +99,7 @@ public class RobotContainer {
 
                 // joystick.a().onTrue(new ExtendIntakeCommand(intake));
                 // joystick.y().onTrue(new RetractIntakeCommand(intake));
+                joystick.y().whileTrue(new AllianceZoneShootCommand(shooter, hopper, feeder, drivetrain, joystick::getLeftY, joystick::getLeftX, MaxSpeed));
 
                 joystick.x().onTrue(Commands.runOnce(intakeRoller::intake, intakeRoller));
                 joystick.b().onTrue(Commands.runOnce(intakeRoller::stop, intakeRoller));
