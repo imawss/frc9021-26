@@ -24,6 +24,7 @@ import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.ContinuousAimCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.intake.ExtendIntakeCommand;
+import frc.robot.commands.intake.IntakeCommands;
 import frc.robot.commands.intake.RetractIntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drivetrain.CommandSwerveDrivetrain;
@@ -65,6 +66,11 @@ public class RobotContainer {
                 NamedCommands.registerCommand("AutoShoot",
                                 new AutoShootCommand(shooter, hopper, feeder, drivetrain));
 
+                NamedCommands.registerCommand("intakeDown",
+                                IntakeCommands.intakeDown(arm, intakeRoller));
+                NamedCommands.registerCommand("intakeUp",
+                                IntakeCommands.intakeUp(arm, intakeRoller));
+
                 autoChooser = AutoBuilder.buildAutoChooser("Tests");
                 SmartDashboard.putData("AutoMode", autoChooser);
 
@@ -99,7 +105,8 @@ public class RobotContainer {
 
                 // joystick.a().onTrue(new ExtendIntakeCommand(intake));
                 // joystick.y().onTrue(new RetractIntakeCommand(intake));
-                joystick.y().whileTrue(new AllianceZoneShootCommand(shooter, hopper, feeder, drivetrain, joystick::getLeftY, joystick::getLeftX, MaxSpeed));
+                joystick.y().whileTrue(new AllianceZoneShootCommand(shooter, hopper, feeder, drivetrain,
+                                joystick::getLeftY, joystick::getLeftX, MaxSpeed));
 
                 joystick.x().onTrue(Commands.runOnce(intakeRoller::intake, intakeRoller));
                 joystick.b().onTrue(Commands.runOnce(intakeRoller::stop, intakeRoller));

@@ -24,7 +24,7 @@ import frc.robot.subsystems.shooter.ShooterSubsystem;
 public class AutoShootCommand extends Command {
 
     // ── Zamanlama ────────────────────────────────────────────────────────────
-    private static final double SHOOT_DURATION_SECONDS = 10.0;
+    private static final double SHOOT_DURATION_SECONDS = 4.0;
 
     // ── Jam tespiti (sadece hopper akımı) ────────────────────────────────────
     // Sıkışma ~30A ama normal feed'de de bazen üstüne çıkabiliyor.
@@ -37,7 +37,7 @@ public class AutoShootCommand extends Command {
     private static final double JAM_CONFIRM_DURATION = 0.25;
 
     // Geri çevirme süresi (saniye)
-    private static final double UNJAM_REVERSE_DURATION = 0.3;
+    private static final double UNJAM_REVERSE_DURATION = 0.1;
 
     // Sonsuz döngüye girmesin — max deneme sayısı
     private static final int MAX_UNJAM_ATTEMPTS = 3;

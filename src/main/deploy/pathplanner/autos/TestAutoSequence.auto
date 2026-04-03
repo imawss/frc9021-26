@@ -1,0 +1,61 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FirstShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "GoingToIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "IntakePose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "intakeUp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of IntakePose"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
