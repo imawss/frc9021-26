@@ -58,8 +58,6 @@ public class DashboardConfig {
         // ── 5. USB Camera (intake kamerası) ──
         setupUsbCamera();
 
-        // ── 6. Limelight stream ──
-        setupLimelightStream();
     }
 
     /**
@@ -111,6 +109,9 @@ public class DashboardConfig {
         if (pose != null) {
             field.setRobotPose(pose);
         }
+
+        // ── 2. Match Time ──
+        SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
 
         // ── 3. Hub Active (shift mekaniği) ──
         SmartDashboard.putBoolean("Hub Active", isHubActive());

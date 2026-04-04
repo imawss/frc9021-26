@@ -35,21 +35,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "intakeUp"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Copy of IntakePose"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShoot"
           }
         }
       ]
